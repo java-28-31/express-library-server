@@ -12,17 +12,36 @@ import { convertBookDtoToBook } from "../utils/tools.js";
 export class BookController {
     constructor() {
         this.service = bookServiceEmbedded;
-        this.getAllBooks = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.service.getAllBooks();
+        this.removeBook = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const bookId = req.query.userId;
+            const result = yield this.service.removeBook(bookId);
             res.json(result);
         });
-    }
-    addBook(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
+        this.addBook = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const dto = req.body;
             const book = convertBookDtoToBook(dto);
             const result = yield this.service.addBook(book);
             res.status(201).json(result);
+        });
+        this.getAllBooks = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.service.getAllBooks();
+            res.json(result);
+        });
+        this.pickBook = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const bookId = req.query.bookId;
+            const { readerName, readerId } = req.body;
+            yield this.service.pickBook(bookId, readerName, +readerId);
+            res.send(`Book picked to ${readerName}`);
+        });
+        this.returnBook = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const bookId = req.query.bookId;
+            yield this.service.returnBook(bookId);
+            res.send("Book returned");
+        });
+        this.getBookByAuthor = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const author = req.query.author;
+            const result = yield this.service.getBookByAuthor(author);
+            res.json(result);
         });
     }
 }

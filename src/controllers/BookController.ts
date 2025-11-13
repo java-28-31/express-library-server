@@ -7,7 +7,13 @@ import {convertBookDtoToBook} from "../utils/tools.js";
 export class BookController {
      private service: BookService = bookServiceEmbedded;
 
-     async addBook(req:Request, res:Response)  {
+     removeBook = async (req:Request, res:Response) => {
+         const bookId = req.query.bookId;
+         const result = await this.service.removeBook(bookId as string);
+         res.json(result)
+     }
+
+      addBook = async (req:Request, res:Response) =>  {
         const dto = req.body as BookDto;
         const book:Book = convertBookDtoToBook(dto);
         const result = await this.service.addBook(book);
@@ -16,6 +22,22 @@ export class BookController {
      getAllBooks = async (req:Request, res: Response)=> {
          const result = await this.service.getAllBooks();
          res.json(result)
+    }
+    pickBook = async (req:Request, res: Response) => {
+         const bookId = req.query.bookId;
+         const {readerName, readerId} = req.body;
+         await this.service.pickBook(bookId as string, readerName, +readerId);
+         res.send(`Book picked to ${readerName}`);
+    }
+    returnBook = async (req:Request, res: Response) => {
+        const bookId = req.query.bookId;
+        await this.service.returnBook(bookId as string);
+        res.send("Book returned")
+    }
+    getBookByAuthor = async (req:Request, res: Response) => {
+         const author = req.query.author;
+         const result = await this.service.getBookByAuthor(author as string);
+         res.json(result);
     }
  }
 

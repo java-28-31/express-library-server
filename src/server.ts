@@ -13,7 +13,7 @@ export const launchServer = () => {
     app.use(express.json())
 
     //===================Router====================
-    app.use('/api', bookRouter);
+    app.use('/api/books', bookRouter);
 
     app.use((req, res) => {
         res.status(404).send("Page not found")
