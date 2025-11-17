@@ -3,9 +3,11 @@ import {bookServiceEmbedded} from "../service/BookServiceImplEmbedded.js";
 import {NextFunction, Request, Response} from "express";
 import {Book, BookDto} from "../model/book.js";
 import {convertBookDtoToBook} from "../utils/tools.js";
+import {bookServiceMongo} from "../service/BookServiceImplMongo.js";
 
 export class BookController {
-     private service: BookService = bookServiceEmbedded;
+     // service: BookService = bookServiceEmbedded;
+     private service: BookService = bookServiceMongo;
 
      removeBook = async (req:Request, res:Response) => {
          const bookId = req.query.bookId;
