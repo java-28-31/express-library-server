@@ -7,13 +7,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { bookServiceEmbedded } from "../service/BookServiceImplEmbedded.js";
 import { convertBookDtoToBook } from "../utils/tools.js";
+import { bookServiceMongo } from "../service/BookServiceImplMongo.js";
 export class BookController {
     constructor() {
-        this.service = bookServiceEmbedded;
+        // service: BookService = bookServiceEmbedded;
+        this.service = bookServiceMongo;
         this.removeBook = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const bookId = req.query.userId;
+            const bookId = req.query.bookId;
             const result = yield this.service.removeBook(bookId);
             res.json(result);
         });

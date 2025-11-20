@@ -9,7 +9,7 @@ class BookServiceImplEmbedded {
                 author: "Lev Tolstoy",
                 genre: BookGenres.CLASSIC,
                 year: 2000,
-                status: BookStatus.ON_HAND,
+                status: BookStatus.IN_STOCK,
                 pickList: []
             }
         ];

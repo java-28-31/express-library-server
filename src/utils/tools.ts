@@ -13,7 +13,7 @@ export const convertBookDtoToBook = (dto:BookDto):Book => {
         author: dto.author,
         genre: getGenre(dto.genre),
        // id: Math.trunc(Math.random()*1000 + 1).toString(),
-        id: uuidv4(),
+        _id: uuidv4(),
         pickList: [],
         status: BookStatus.IN_STOCK,
         title: dto.title,

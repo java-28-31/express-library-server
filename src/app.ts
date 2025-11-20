@@ -1,10 +1,15 @@
 import {launchServer} from "./server.js";
 import * as mongoose from "mongoose";
-import {DB} from "./configurations/appConfig.js";
+import {createSqlPool, DB} from "./configurations/appConfig.js";
+import dotenv from "dotenv";
 
-mongoose.connect(DB).then(() => {
-    console.log("Mongo db connected");
-    launchServer();
-}).catch(err => {
-    console.log("Mongo connection failed")
-})
+dotenv.config();
+// mongoose.connect(process.env.DB as string).then(() => {
+//     console.log("Mongo db connected");
+//     launchServer();
+// }).catch(err => {
+//     console.log("Mongo connection failed")
+// })
+export const pool = createSqlPool();
+console.log("SQL connected");
+launchServer();

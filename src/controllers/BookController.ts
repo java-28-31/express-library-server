@@ -4,10 +4,12 @@ import {NextFunction, Request, Response} from "express";
 import {Book, BookDto} from "../model/book.js";
 import {convertBookDtoToBook} from "../utils/tools.js";
 import {bookServiceMongo} from "../service/BookServiceImplMongo.js";
+import {bookServiceSql} from "../service/BookServiceImplSQL.js";
 
 export class BookController {
      // service: BookService = bookServiceEmbedded;
-     private service: BookService = bookServiceMongo;
+     //private service: BookService = bookServiceMongo;
+     private service: BookService = bookServiceSql;
 
      removeBook = async (req:Request, res:Response) => {
          const bookId = req.query.bookId;

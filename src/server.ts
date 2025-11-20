@@ -4,11 +4,16 @@ import {errorHandler} from "./errorHandler/errorHandler.js";
 import {bookRouter} from "./routers/bookRouter.js";
 import morgan from "morgan";
 import * as fs from "node:fs";
-
+//import dotenv from "dotenv";
 export const launchServer = () => {
     const app = express();
-    app.listen(PORT, () => {
-        console.log(`Server runs at http://localhost:${PORT}`);
+
+    // app.listen(PORT, () => {
+    //     console.log(`Server runs at http://localhost:${PORT}`);
+    // })
+    //dotenv.config();
+    app.listen(process.env.PORT, () => {
+        console.log(`Server runs at http://localhost:${process.env.PORT}`);
     })
     const logStream = fs.createWriteStream('app.log',{flags:'a'})
     //==================Middleware=================
