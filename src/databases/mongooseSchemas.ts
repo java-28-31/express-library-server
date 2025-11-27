@@ -22,3 +22,13 @@ const bookMongooseSchema = new mongoose.Schema({
 });
 
 export const bookMongooseModel = mongoose.model<Book>('Book', bookMongooseSchema, 'book-collection')
+
+const readerMongoSchema = new mongoose.Schema({
+    _id:{type:Number, length: 9, required: true},
+    username: {type:String, required: true},
+    email: {type:String, required:true},
+    birthDate: {type:String, required:true},
+    passHash: {type:String, required:true},
+});
+
+export const ReaderModel = mongoose.model('Reader', readerMongoSchema, 'reader_collection')

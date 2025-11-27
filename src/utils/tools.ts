@@ -24,9 +24,10 @@ export const convertBookDtoToBook = (dto:BookDto):Book => {
 }
 
 export const convertReaderDtoToReader = (readerDto:ReaderDto) => {
+    console.log(readerDto)
     const salt = bcrypt.genSaltSync(10);
     const reader:Reader = {
-        _id: readerDto.id,
+        _id: +readerDto.id,
         birthDate: readerDto.birthDate,
         email: readerDto.email,
         passHash: bcrypt.hashSync(readerDto.password, salt),
