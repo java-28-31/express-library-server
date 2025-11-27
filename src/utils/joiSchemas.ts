@@ -18,7 +18,7 @@ export const ReaderDtoJoiSchema = Joi.object({
     username: Joi.string().min(1).required(),
     email: Joi.string().email().required(),
     password: Joi.string().alphanum().min(8).required(),
-    birthDate: Joi.string().isoDate().required()
+    birthDate: Joi.string().isoDate().required() //2025-11-27
 })
 
 export const ChangePassDtoJoiSchema = Joi.object({

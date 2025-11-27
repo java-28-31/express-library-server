@@ -1,10 +1,12 @@
 import express from 'express'
-import {PORT} from "./configurations/appConfig.js";
+import {PORT, skipRoutesArr} from "./configurations/appConfig.js";
 import {errorHandler} from "./errorHandler/errorHandler.js";
 import {bookRouter} from "./routers/bookRouter.js";
 import morgan from "morgan";
 import * as fs from "node:fs";
 import {accountRouter} from "./routers/accountRouter.js";
+import {authenticate, skipRoutes} from "./middleware/authentication.js";
+import {accountServiceMongo} from "./service/AccountServiceImplMongo.js";
 //import dotenv from "dotenv";
 export const launchServer = () => {
     const app = express();
@@ -18,6 +20,8 @@ export const launchServer = () => {
     })
     const logStream = fs.createWriteStream('app.log',{flags:'a'})
     //==================Middleware=================
+    app.use(authenticate(accountServiceMongo))
+    app.use(skipRoutes(skipRoutesArr))
     app.use(express.json())
     app.use(morgan('combined'))
     app.use(morgan('common', {stream: logStream}))
