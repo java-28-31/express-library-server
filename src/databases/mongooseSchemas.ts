@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose";
 import { v4 as uuidv4 } from 'uuid';
 import {Book, BookGenres, BookStatus} from "../model/book.js";
+import {Roles} from "../utils/libTypes.js";
 
 const pickListSchema = new mongoose.Schema({
     readerId: {type: Number, min: 100000000, max: 999999999, required:true},
@@ -29,6 +30,7 @@ const readerMongoSchema = new mongoose.Schema({
     email: {type:String, required:true},
     birthDate: {type:String, required:true},
     passHash: {type:String, required:true},
+    roles:{type:[String], enum:Roles, required:true}
 });
 
 export const ReaderModel = mongoose.model('Reader', readerMongoSchema, 'reader_collection')

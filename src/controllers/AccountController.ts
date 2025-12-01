@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import {Reader, ReaderDto, UpdateReaderDto} from "../model/reader.js";
 import {accountServiceMongo} from "../service/AccountServiceImplMongo.js";
 import {HttpError} from "../errorHandler/HttpError.js";
-import {convertReaderDtoToReader} from "../utils/tools.js";
+import {convertReaderDtoToReader, getRole} from "../utils/tools.js";
 
 class AccountController {
     service = accountServiceMongo;
@@ -36,6 +36,17 @@ class AccountController {
         const newReaderData = req.body as UpdateReaderDto;
         const updated = await this.service.editAccount(id, newReaderData);
         res.json(updated);
+    };
+    addRole = async (req: Request, res: Response) => {
+        const newRole = getRole(req.query.role as string);
+        const readerId = +req.query.id!;//Todo
+        const readerWithNewRole = await this.service.addRole(readerId, newRole);
+        res.json(readerWithNewRole);
+    };
+    login =  async (req: Request, res: Response) => {
+        const {id, password} = req.body;
+        const token = await this.service.login(id, password);
+        res.send(token)
     };
 
 

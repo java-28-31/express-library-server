@@ -31,3 +31,7 @@ export const UpdateAccountJoiSchema = Joi.object({
     email: Joi.string().email().required(),
     birthDate: Joi.string().isoDate().required()
 })
+export const LoginJoiSchema = Joi.object({
+    id:Joi.number().positive().max(999999999).min(100000000).required(),
+    password: Joi.string().alphanum().min(8).required()
+})

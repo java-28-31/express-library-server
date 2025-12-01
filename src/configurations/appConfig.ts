@@ -16,11 +16,13 @@ export const ACCOUNT_DB = "mongodb+srv://konspirin_db_user:x2vFIm6KGi2TntYv@clus
      })
  }
 
- export const skipRoutesArr = ["POST/account"];
+ export const skipRoutesArr = ["POST/account", "POST/account/login"];
 
 export const pathRoles = {
     "GET/account/byId": [Roles.READER],
     "PATCH/account/password":[Roles.READER],
-
+    "PATCH/account/update":[Roles.ADMIN],
+    "DELETE/account":[Roles.SUPERVISOR],
+    "PATCH/account/roles":[Roles.SUPERVISOR]
 }
 

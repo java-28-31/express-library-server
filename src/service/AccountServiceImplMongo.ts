@@ -3,6 +3,8 @@ import {Reader, UpdateReaderDto} from "../model/reader.js";
 import bcrypt from "bcryptjs";
 import {HttpError} from "../errorHandler/HttpError.js";
 import {ReaderModel} from "../databases/mongooseSchemas.js";
+import {Roles} from "../utils/libTypes.js";
+import {getJWT} from "../utils/tools.js";
 
 class AccountServiceImplMongo implements AccountService{
     async changePassword(id: number, newPassword: string): Promise<void> {
@@ -33,8 +35,8 @@ class AccountServiceImplMongo implements AccountService{
                 birthdate: updReader.birthDate
             }, {new: true})
         if (!result) throw new HttpError(404, "Account not found");
-        const {_id, username, email, passHash, birthDate } = result;
-        return {_id, username, email, passHash, birthDate }
+        const {_id, username, email, passHash, birthDate, roles } = result;
+        return {_id, username, email, passHash, birthDate, roles }
 
     }
 
@@ -42,15 +44,15 @@ class AccountServiceImplMongo implements AccountService{
 
         const result = await ReaderModel.findById(id).lean().exec();
         if (!result) throw new HttpError(404, "Account not found");
-        const {_id, username, email, passHash, birthDate } = result;
-        return {_id, username, email, passHash, birthDate }
+        const {_id, username, email, passHash, birthDate, roles} = result;
+        return {_id, username, email, passHash, birthDate, roles }
     }
 
     async removeAccount(id: number): Promise<Reader> {
         const result = await ReaderModel.findByIdAndDelete(id);
         if (!result) throw new HttpError(404, "Account not found");
-        const {_id, username, email, passHash, birthDate } = result;
-        return {_id, username, email, passHash, birthDate }
+        const {_id, username, email, passHash, birthDate, roles} = result;
+        return {_id, username, email, passHash, birthDate, roles }
     }
 
     async checkPassword(id: number, pass: string) {
@@ -58,6 +60,21 @@ class AccountServiceImplMongo implements AccountService{
         console.log(account)
         if(!bcrypt.compareSync(pass, account.passHash))
             throw new HttpError(401, "Wrong credentials")
+        return account;
+    }
+
+    async addRole(id: number, role: Roles): Promise<Reader> {
+        const account = await ReaderModel.findById(id);
+        if(!account) throw new HttpError(404,"");
+        account.roles.push(role);
+        account.save();
+        return account as Reader;
+    }
+
+    async login(id: number, password: string): Promise<string> {
+        const account = await this.checkPassword(id, password)
+        const token = getJWT(id, account.roles)
+        return token;
     }
 
 }
