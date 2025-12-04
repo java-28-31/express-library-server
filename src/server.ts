@@ -1,5 +1,5 @@
 import express from 'express'
-import {pathRoles, PORT, skipRoutesArr} from "./configurations/appConfig.js";
+import {config} from "./configurations/appConfig.js";
 import {errorHandler} from "./errorHandler/errorHandler.js";
 import {bookRouter} from "./routers/bookRouter.js";
 import morgan from "morgan";
@@ -8,6 +8,7 @@ import {accountRouter} from "./routers/accountRouter.js";
 import {authenticate, skipRoutes} from "./middleware/authentication.js";
 import {accountServiceMongo} from "./service/AccountServiceImplMongo.js";
 import {authorize} from "./middleware/authorization.js";
+import {Roles} from "./utils/libTypes.js";
 //import dotenv from "dotenv";
 export const launchServer = () => {
     const app = express();
@@ -16,14 +17,14 @@ export const launchServer = () => {
     //     console.log(`Server runs at http://localhost:${PORT}`);
     // })
     //dotenv.config();
-    app.listen(process.env.PORT, () => {
-        console.log(`Server runs at http://localhost:${process.env.PORT}`);
+    app.listen(config.port, () => {
+        console.log(`Server runs at http://localhost:${config.port}`);
     })
     const logStream = fs.createWriteStream('app.log',{flags:'a'})
     //==================Middleware=================
     app.use(authenticate(accountServiceMongo))
-    app.use(skipRoutes(skipRoutesArr))
-    app.use(authorize(pathRoles))
+    app.use(skipRoutes(config.skipRoutesArr))
+    app.use(authorize(config.pathRoles as Record<string, Roles[]>))
     app.use(express.json())
     app.use(morgan('combined'))
     app.use(morgan('common', {stream: logStream}))
