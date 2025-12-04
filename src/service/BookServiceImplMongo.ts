@@ -25,7 +25,7 @@ export class BookServiceImplMongo implements BookService{
         return result;
     }
 
-    async pickBook(id: string, reader: string, readerId: number): Promise<void> {
+    async pickBook(id: string, readerName: string, readerId: number): Promise<void> {
         const bookDoc = await bookMongooseModel.findById(id).exec();
         if(!bookDoc) throw new HttpError(409, `Book with id ${id} not exists`);
         if(bookDoc.status != BookStatus.IN_STOCK)
@@ -33,7 +33,7 @@ export class BookServiceImplMongo implements BookService{
         bookDoc.status = BookStatus.ON_HAND;
         bookDoc.pickList.push({
             readerId,
-            readerName:reader,
+            readerName,
             pickDate: new Date().toDateString(),
             returnDate: null
         })

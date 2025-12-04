@@ -3,6 +3,7 @@ import {Reader, ReaderDto, UpdateReaderDto} from "../model/reader.js";
 import {accountServiceMongo} from "../service/AccountServiceImplMongo.js";
 import {HttpError} from "../errorHandler/HttpError.js";
 import {convertReaderDtoToReader, getRole} from "../utils/tools.js";
+import {AuthRequest, Roles} from "../utils/libTypes.js";
 
 class AccountController {
     service = accountServiceMongo;
@@ -13,9 +14,11 @@ class AccountController {
         await this.service.createAccount(reader);
         res.status(201).send();
     };
-    getAccountById =  async (req: Request, res: Response) => {
+    getAccountById =  async (req: AuthRequest, res: Response) => {
         const id = +req.query.id!;
         if (!id) throw new HttpError(400, "No params");
+        if((!req.roles?.includes(Roles.ADMIN)|| !req.roles?.includes(Roles.LIBRARIAN)) && id != req.userId!)
+            throw new HttpError(403, "Only account owner or Admin can see account");
         const account = await this.service.getAccount(id);
         res.json(account)
     };
@@ -24,8 +27,9 @@ class AccountController {
         const account = await this.service.removeAccount(id);
         res.json(account)
     };
-    changePassword  = async (req: Request, res: Response) => {
+    changePassword  = async (req: AuthRequest, res: Response) => {
         const {id, oldPassword, newPassword} = req.body;
+        if(id != req.userId!) throw new HttpError(403, "Only account owner can change password");
         await this.service.checkPassword(id, oldPassword);
         await this.service.changePassword(id, newPassword);
         res.send("Password changed")
