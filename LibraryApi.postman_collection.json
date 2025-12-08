@@ -11,29 +11,6 @@
 			"name": "Books",
 			"item": [
 				{
-					"name": "GetAllBooks",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3050/api/books",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3050",
-							"path": [
-								"api",
-								"books"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "AddBook",
 					"request": {
 						"auth": {
@@ -100,6 +77,45 @@
 				},
 				{
 					"name": "PickBook",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"reader\": \"Villy\",\r\n   \"readerId\": 123456789\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/api/books/pick?bookId=210",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"api",
+								"books",
+								"pick"
+							],
+							"query": [
+								{
+									"key": "bookId",
+									"value": "210"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PickBookOLD",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -207,8 +223,290 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetAllBooks",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3050/api/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"response": []
 				}
 			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "AddAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"111111111\",\r\n    \"username\":\"Ostap\",\r\n    \"email\":\"ostap@gmail.com\",\r\n    \"password\":\"Bender123\",\r\n    \"birthDate\":\"1895-11-21\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addAccount2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"111111111\",\r\n    \"username\":\"Ostap\",\r\n    \"email\":\"ostap@gmail.com\",\r\n    \"password\":\"Bender123\",\r\n    \"birthDate\":\"1895-11-21\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetNewRole",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"111111111\",\r\n    \"username\":\"Ostap\",\r\n    \"email\":\"ostap@gmail.com\",\r\n    \"password\":\"Bender123\",\r\n    \"birthDate\":\"1895-11-21\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3050/account/roles?id=321321321&role=admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"account",
+								"roles"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "321321321"
+								},
+								{
+									"key": "role",
+									"value": "admin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"321321321\",\r\n    \"password\": \"NeoNeo123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3050/account/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3050",
+							"path": [
+								"account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetAccountById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3050/account/byId?id=111111111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3050",
+					"path": [
+						"account",
+						"byId"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "111111111"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAccount",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"111111111\",\r\n    \"username\":\"Ostap\",\r\n    \"email\":\"ostap@gmail.com\",\r\n    \"password\":\"Bender123\",\r\n    \"birthDate\":\"1895-11-21\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3050/account?id=111111111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3050",
+					"path": [
+						"account"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "111111111"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ChangePassword",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"111111111\",\r\n    \"oldPassword\":\"Bender123\",\r\n    \"newPassword\":\"Bender321\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3050/account/password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3050",
+					"path": [
+						"account",
+						"password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateAccount",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"Osya\",\r\n    \"email\":\"bender@gmail.com\",\r\n    \"birthDate\":\"1895-11-21\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3050/account/update?id=111111111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3050",
+					"path": [
+						"account",
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "111111111"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

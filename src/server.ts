@@ -7,8 +7,9 @@ import * as fs from "node:fs";
 import {accountRouter} from "./routers/accountRouter.js";
 import {authenticate, skipRoutes} from "./middleware/authentication.js";
 import {accountServiceMongo} from "./service/AccountServiceImplMongo.js";
-import {authorize} from "./middleware/authorization.js";
+import {authorize, requestLimitControl} from "./middleware/authorization.js";
 import {Roles} from "./utils/libTypes.js";
+import {requestLimitControlMap} from "./utils/constants.js";
 //import dotenv from "dotenv";
 export const launchServer = () => {
     const app = express();
@@ -25,6 +26,7 @@ export const launchServer = () => {
     app.use(authenticate(accountServiceMongo))
     app.use(skipRoutes(config.skipRoutesArr))
     app.use(authorize(config.pathRoles as Record<string, Roles[]>))
+    app.use(requestLimitControl(requestLimitControlMap))
     app.use(express.json())
     app.use(morgan('combined'))
     app.use(morgan('common', {stream: logStream}))

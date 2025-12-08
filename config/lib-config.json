@@ -13,5 +13,7 @@
     "GET/api/books/author":["reader"],
     "PATCH/api/books/pick":["librarian"],
     "PATCH/api/books/return":["librarian"]
-  }
+  },
+  "timeWindowMs":60000,
+  "requestLimit":3
 }

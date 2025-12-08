@@ -7,6 +7,8 @@ export type AppConfig = {
     port: number,
     skipRoutesArr:string[],
     pathRoles: Record<string, string[]>,
+    timeWindowMs:number,
+    requestLimit:number
    // createSqlPool:() => Pool
 }
 export const config:AppConfig = {...confJson,
