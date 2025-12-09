@@ -23,7 +23,7 @@ export class AccountServiceImplMongo implements AccountService{
         if (temp) throw new HttpError(409, "Reader already exists");
         const readerDoc = new ReaderModel(reader);
         await readerDoc.save();
-
+        return Promise.resolve(undefined);
     }
 
     async editAccount(id: number, updReader: UpdateReaderDto): Promise<Reader> {

@@ -47,7 +47,7 @@ export class BookServiceImplMongo implements BookService{
 
         if(bookDoc.status !== BookStatus.IN_STOCK) {
             bookDoc.status = BookStatus.REMOVED;
-            await bookDoc.save()
+            await bookDoc.save();
             throw new HttpError(409, "Book is on hand. Markered as REMOVED")
         }
         const removed = await bookMongooseModel.findByIdAndDelete(id).exec() as Book;
