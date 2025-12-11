@@ -1,9 +1,8 @@
 import {BookService} from "./BookService.js";
 import {Book, BookStatus} from "../model/book.js";
 import {bookMongooseModel} from "../databases/mongooseSchemas.js";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import {HttpError} from "../errorHandler/HttpError.js";
-import {bookRouter} from "../routers/bookRouter.js";
 
 export class BookServiceImplMongo implements BookService{
 
@@ -51,7 +50,7 @@ export class BookServiceImplMongo implements BookService{
             throw new HttpError(409, "Book is on hand. Markered as REMOVED")
         }
         const removed = await bookMongooseModel.findByIdAndDelete(id).exec() as Book;
-
+        removed.status = BookStatus.REMOVED;
         return removed;
     }
 

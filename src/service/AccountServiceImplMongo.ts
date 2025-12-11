@@ -32,7 +32,7 @@ export class AccountServiceImplMongo implements AccountService{
             await ReaderModel.findByIdAndUpdate(id, {
                 username: updReader.username,
                 email: updReader.email,
-                birthdate: updReader.birthDate
+                birthDate: updReader.birthDate
             }, {new: true})
         if (!result) throw new HttpError(404, "Account not found");
         const {_id, username, email, passHash, birthDate, roles } = result;
@@ -67,8 +67,8 @@ export class AccountServiceImplMongo implements AccountService{
         const account = await ReaderModel.findById(id);
         if(!account) throw new HttpError(404,"");
         account.roles.push(role);
-        account.save();
-        return account as Reader;
+       const result = await account.save();
+        return result as Reader;
     }
 
     async login(id: number, password: string): Promise<string> {
