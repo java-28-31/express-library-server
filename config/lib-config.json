@@ -1,6 +1,6 @@
 {
   "port": 3050,
-  "skipRoutesArr": ["POST/account", "POST/account/login"],
+  "skipRoutesArr": ["POST/account", "POST/account/login", "GET/docs/"],
   "pathRoles": {
     "GET/account/byId": ["reader"],
     "PATCH/account/password":["reader"],

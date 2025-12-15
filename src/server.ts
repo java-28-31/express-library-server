@@ -10,7 +10,10 @@ import {accountServiceMongo} from "./service/AccountServiceImplMongo.js";
 import {authorize, requestLimitControl} from "./middleware/authorization.js";
 import {Roles} from "./utils/libTypes.js";
 import {requestLimitControlMap} from "./utils/constants.js";
-//import dotenv from "dotenv";
+import swaggerUi from "swagger-ui-express";
+import swaggerDoc from "../docs/library-openapi.json" with {type:"json"}
+
+
 export const launchServer = () => {
     const app = express();
 
@@ -22,6 +25,12 @@ export const launchServer = () => {
         console.log(`Server runs at http://localhost:${config.port}`);
     })
     const logStream = fs.createWriteStream('app.log',{flags:'a'})
+    //================OpenApi Docs=================
+    app.use('/docs',swaggerUi.serve, swaggerUi.setup(swaggerDoc, {
+        swaggerOptions:{
+            supportedSubmitMethods:[]
+        }
+    }));
     //==================Middleware=================
     app.use(authenticate(accountServiceMongo))
     app.use(skipRoutes(config.skipRoutesArr))
@@ -33,6 +42,7 @@ export const launchServer = () => {
     //winston
     //pino
     //Log4js
+
     //===================Router====================
     app.use('/api/books', bookRouter);
     app.use('/account', accountRouter);
